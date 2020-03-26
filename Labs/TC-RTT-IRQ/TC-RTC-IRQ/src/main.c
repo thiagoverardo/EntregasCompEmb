@@ -63,6 +63,7 @@ typedef struct
 volatile char flag_led1 = 0;
 volatile char flag_rtc = 0;
 volatile char flag_tc = 0;
+volatile char flag_tc2 = 0;
 volatile Bool f_rtt_alarme = false;
 
 /************************************************************************/
@@ -104,6 +105,20 @@ void TC1_Handler(void){
 
 	/** Muda o estado do LED */
 	flag_tc = 1;
+}
+void TC2_Handler(void){
+	volatile uint32_t ul_dummy;
+
+	/****************************************************************
+	* Devemos indicar ao TC que a interrupção foi satisfeita.
+	******************************************************************/
+	ul_dummy = tc_get_status(TC0, 2);
+
+	/* Avoid compiler warning */
+	UNUSED(ul_dummy);
+
+	/** Muda o estado do LED */
+	flag_tc2 = 1;
 }
 
 
@@ -170,6 +185,16 @@ void pisca_ledP(int n, int t){
 		delay_ms(t);
 	}
 }
+
+void pisca_led3(int n, int t){
+	for (int i=0;i<n;i++){
+		pio_clear(LED3_PIO, LED3_PIO_IDX_MASK);
+		delay_ms(t);
+		pio_set(LED3_PIO, LED3_PIO_IDX_MASK);
+		delay_ms(t);
+	}
+}
+
 
 /**
 *  Toggle pin controlado pelo PIO (out)
@@ -238,11 +263,13 @@ void LED_init(int estado){
 	// Ativa PIOs necessários
 	pmc_enable_periph_clk(LED1_PIO_ID);
 	pmc_enable_periph_clk(LED2_PIO_ID);
+	pmc_enable_periph_clk(LED3_PIO_ID);
 	pmc_enable_periph_clk(LEDP_PIO_ID);
 	
 	// Inicializa LEDs como saída
 	pio_set_output(LED1_PIO, LED1_PIO_IDX_MASK, estado, 0, 0);
 	pio_set_output(LED2_PIO, LED2_PIO_IDX_MASK, estado, 0, 0);
+	pio_set_output(LED3_PIO, LED3_PIO_IDX_MASK, estado, 0, 0);
 	pio_set_output(LEDP_PIO, LEDP_PIO_IDX_MASK, estado, 0, 0);
 
 };
@@ -326,6 +353,7 @@ int main(void){
 	RTC_init(RTC, ID_RTC, rtc_initial, RTC_IER_ALREN);
 	/** Configura timer TC0, canal 1 */
 	TC_init(TC0, ID_TC1, 1, 4);
+	TC_init(TC0, ID_TC2, 2, 5);
 
 	/* configura alarme do RTC */
 	rtc_set_date_alarm(RTC, 1, rtc_initial.month, 1, rtc_initial.day);
@@ -337,6 +365,11 @@ int main(void){
 		
 		if(flag_tc){
 			pisca_led1(1,10);
+			flag_tc = 0;
+		}
+		
+		if(flag_tc2){
+			pisca_led3(1,10);
 			flag_tc = 0;
 		}
 		
