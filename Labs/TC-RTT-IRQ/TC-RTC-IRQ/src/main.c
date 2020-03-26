@@ -42,6 +42,12 @@ typedef struct
 #define LED3_PIO_IDX       11
 #define LED3_PIO_IDX_MASK  (1 << LED3_PIO_IDX)
 
+#define LEDP_PIO       PIOC
+#define LEDP_PIO_ID    ID_PIOC
+#define LEDP_IDX       8u
+#define LEDP_PIO_IDX_MASK  (1u << LEDP_IDX)
+
+
 /**
 * Botão
 */
@@ -156,11 +162,11 @@ void RTC_Handler(void){
 /************************************************************************/
 
 //Pisca LED
-void pisca_led3(int n, int t){
+void pisca_ledP(int n, int t){
 	for (int i=0;i<n;i++){
-		pio_clear(LED3_PIO, LED3_PIO_IDX_MASK);
+		pio_clear(LEDP_PIO, LEDP_PIO_IDX_MASK);
 		delay_ms(t);
-		pio_set(LED3_PIO, LED3_PIO_IDX_MASK);
+		pio_set(LEDP_PIO, LEDP_PIO_IDX_MASK);
 		delay_ms(t);
 	}
 }
@@ -232,12 +238,12 @@ void LED_init(int estado){
 	// Ativa PIOs necessários
 	pmc_enable_periph_clk(LED1_PIO_ID);
 	pmc_enable_periph_clk(LED2_PIO_ID);
-	pmc_enable_periph_clk(LED3_PIO_ID);
+	pmc_enable_periph_clk(LEDP_PIO_ID);
 	
 	// Inicializa LEDs como saída
 	pio_set_output(LED1_PIO, LED1_PIO_IDX_MASK, estado, 0, 0);
 	pio_set_output(LED2_PIO, LED2_PIO_IDX_MASK, estado, 0, 0);
-	pio_set_output(LED3_PIO, LED3_PIO_IDX_MASK, estado, 0, 0);
+	pio_set_output(LEDP_PIO, LEDP_PIO_IDX_MASK, estado, 0, 0);
 
 };
 /**
@@ -335,7 +341,7 @@ int main(void){
 		}
 		
 		if(flag_rtc){
-			pisca_led3(5, 200);
+			pisca_ledP(5, 200);
 			flag_rtc = 0;
 		}
 		if (f_rtt_alarme){

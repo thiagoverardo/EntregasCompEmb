@@ -29,13 +29,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  12 .debug_ranges 000007d8  00000000  00000000  00037c52  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_macro  0001daf1  00000000  00000000  0003842a  2**0
+ 13 .debug_macro  0001db09  00000000  00000000  0003842a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_line   00009ba6  00000000  00000000  00055f1b  2**0
+ 14 .debug_line   00009ba6  00000000  00000000  00055f33  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_str    00089c06  00000000  00000000  0005fac1  2**0
+ 15 .debug_str    00089c57  00000000  00000000  0005fad9  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_frame  00002614  00000000  00000000  000e96c8  2**2
+ 16 .debug_frame  00002614  00000000  00000000  000e9730  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -5577,13 +5577,13 @@ void RTC_Handler(void){
   402174:	004022dd 	.word	0x004022dd
   402178:	204004e0 	.word	0x204004e0
 
-0040217c <pisca_led3>:
+0040217c <pisca_ledP>:
 /************************************************************************/
 /* Funcoes                                                              */
 /************************************************************************/
 
 //Pisca LED
-void pisca_led3(int n, int t){
+void pisca_ledP(int n, int t){
   40217c:	b5f0      	push	{r4, r5, r6, r7, lr}
   40217e:	b085      	sub	sp, #20
   402180:	af00      	add	r7, sp, #0
@@ -5592,20 +5592,20 @@ void pisca_led3(int n, int t){
 	for (int i=0;i<n;i++){
   402186:	2300      	movs	r3, #0
   402188:	60fb      	str	r3, [r7, #12]
-  40218a:	e08e      	b.n	4022aa <pisca_led3+0x12e>
-		pio_clear(LED3_PIO, LED3_PIO_IDX_MASK);
-  40218c:	f44f 6100 	mov.w	r1, #2048	; 0x800
-  402190:	484a      	ldr	r0, [pc, #296]	; (4022bc <pisca_led3+0x140>)
-  402192:	4b4b      	ldr	r3, [pc, #300]	; (4022c0 <pisca_led3+0x144>)
+  40218a:	e08e      	b.n	4022aa <pisca_ledP+0x12e>
+		pio_clear(LEDP_PIO, LEDP_PIO_IDX_MASK);
+  40218c:	f44f 7180 	mov.w	r1, #256	; 0x100
+  402190:	484a      	ldr	r0, [pc, #296]	; (4022bc <pisca_ledP+0x140>)
+  402192:	4b4b      	ldr	r3, [pc, #300]	; (4022c0 <pisca_ledP+0x144>)
   402194:	4798      	blx	r3
 		delay_ms(t);
   402196:	683b      	ldr	r3, [r7, #0]
   402198:	2b00      	cmp	r3, #0
-  40219a:	d026      	beq.n	4021ea <pisca_led3+0x6e>
+  40219a:	d026      	beq.n	4021ea <pisca_ledP+0x6e>
   40219c:	683b      	ldr	r3, [r7, #0]
   40219e:	461d      	mov	r5, r3
   4021a0:	ea4f 76e5 	mov.w	r6, r5, asr #31
-  4021a4:	4b47      	ldr	r3, [pc, #284]	; (4022c4 <pisca_led3+0x148>)
+  4021a4:	4b47      	ldr	r3, [pc, #284]	; (4022c4 <pisca_ledP+0x148>)
   4021a6:	4798      	blx	r3
   4021a8:	4603      	mov	r3, r0
   4021aa:	f04f 0400 	mov.w	r4, #0
@@ -5621,48 +5621,48 @@ void pisca_led3(int n, int t){
   4021ca:	eb44 0602 	adc.w	r6, r4, r2
   4021ce:	4628      	mov	r0, r5
   4021d0:	4631      	mov	r1, r6
-  4021d2:	4c3d      	ldr	r4, [pc, #244]	; (4022c8 <pisca_led3+0x14c>)
+  4021d2:	4c3d      	ldr	r4, [pc, #244]	; (4022c8 <pisca_ledP+0x14c>)
   4021d4:	f241 722c 	movw	r2, #5932	; 0x172c
   4021d8:	f04f 0300 	mov.w	r3, #0
   4021dc:	47a0      	blx	r4
   4021de:	4603      	mov	r3, r0
   4021e0:	460c      	mov	r4, r1
   4021e2:	4618      	mov	r0, r3
-  4021e4:	4b39      	ldr	r3, [pc, #228]	; (4022cc <pisca_led3+0x150>)
+  4021e4:	4b39      	ldr	r3, [pc, #228]	; (4022cc <pisca_ledP+0x150>)
   4021e6:	4798      	blx	r3
-  4021e8:	e016      	b.n	402218 <pisca_led3+0x9c>
-  4021ea:	4b36      	ldr	r3, [pc, #216]	; (4022c4 <pisca_led3+0x148>)
+  4021e8:	e016      	b.n	402218 <pisca_ledP+0x9c>
+  4021ea:	4b36      	ldr	r3, [pc, #216]	; (4022c4 <pisca_ledP+0x148>)
   4021ec:	4798      	blx	r3
   4021ee:	4603      	mov	r3, r0
   4021f0:	f04f 0400 	mov.w	r4, #0
-  4021f4:	4936      	ldr	r1, [pc, #216]	; (4022d0 <pisca_led3+0x154>)
+  4021f4:	4936      	ldr	r1, [pc, #216]	; (4022d0 <pisca_ledP+0x154>)
   4021f6:	f04f 0200 	mov.w	r2, #0
   4021fa:	185d      	adds	r5, r3, r1
   4021fc:	eb44 0602 	adc.w	r6, r4, r2
   402200:	4628      	mov	r0, r5
   402202:	4631      	mov	r1, r6
-  402204:	4c30      	ldr	r4, [pc, #192]	; (4022c8 <pisca_led3+0x14c>)
-  402206:	4a33      	ldr	r2, [pc, #204]	; (4022d4 <pisca_led3+0x158>)
+  402204:	4c30      	ldr	r4, [pc, #192]	; (4022c8 <pisca_ledP+0x14c>)
+  402206:	4a33      	ldr	r2, [pc, #204]	; (4022d4 <pisca_ledP+0x158>)
   402208:	f04f 0300 	mov.w	r3, #0
   40220c:	47a0      	blx	r4
   40220e:	4603      	mov	r3, r0
   402210:	460c      	mov	r4, r1
   402212:	4618      	mov	r0, r3
-  402214:	4b2d      	ldr	r3, [pc, #180]	; (4022cc <pisca_led3+0x150>)
+  402214:	4b2d      	ldr	r3, [pc, #180]	; (4022cc <pisca_ledP+0x150>)
   402216:	4798      	blx	r3
-		pio_set(LED3_PIO, LED3_PIO_IDX_MASK);
-  402218:	f44f 6100 	mov.w	r1, #2048	; 0x800
-  40221c:	4827      	ldr	r0, [pc, #156]	; (4022bc <pisca_led3+0x140>)
-  40221e:	4b2e      	ldr	r3, [pc, #184]	; (4022d8 <pisca_led3+0x15c>)
+		pio_set(LEDP_PIO, LEDP_PIO_IDX_MASK);
+  402218:	f44f 7180 	mov.w	r1, #256	; 0x100
+  40221c:	4827      	ldr	r0, [pc, #156]	; (4022bc <pisca_ledP+0x140>)
+  40221e:	4b2e      	ldr	r3, [pc, #184]	; (4022d8 <pisca_ledP+0x15c>)
   402220:	4798      	blx	r3
 		delay_ms(t);
   402222:	683b      	ldr	r3, [r7, #0]
   402224:	2b00      	cmp	r3, #0
-  402226:	d026      	beq.n	402276 <pisca_led3+0xfa>
+  402226:	d026      	beq.n	402276 <pisca_ledP+0xfa>
   402228:	683b      	ldr	r3, [r7, #0]
   40222a:	461d      	mov	r5, r3
   40222c:	ea4f 76e5 	mov.w	r6, r5, asr #31
-  402230:	4b24      	ldr	r3, [pc, #144]	; (4022c4 <pisca_led3+0x148>)
+  402230:	4b24      	ldr	r3, [pc, #144]	; (4022c4 <pisca_ledP+0x148>)
   402232:	4798      	blx	r3
   402234:	4603      	mov	r3, r0
   402236:	f04f 0400 	mov.w	r4, #0
@@ -5678,34 +5678,34 @@ void pisca_led3(int n, int t){
   402256:	eb44 0602 	adc.w	r6, r4, r2
   40225a:	4628      	mov	r0, r5
   40225c:	4631      	mov	r1, r6
-  40225e:	4c1a      	ldr	r4, [pc, #104]	; (4022c8 <pisca_led3+0x14c>)
+  40225e:	4c1a      	ldr	r4, [pc, #104]	; (4022c8 <pisca_ledP+0x14c>)
   402260:	f241 722c 	movw	r2, #5932	; 0x172c
   402264:	f04f 0300 	mov.w	r3, #0
   402268:	47a0      	blx	r4
   40226a:	4603      	mov	r3, r0
   40226c:	460c      	mov	r4, r1
   40226e:	4618      	mov	r0, r3
-  402270:	4b16      	ldr	r3, [pc, #88]	; (4022cc <pisca_led3+0x150>)
+  402270:	4b16      	ldr	r3, [pc, #88]	; (4022cc <pisca_ledP+0x150>)
   402272:	4798      	blx	r3
-  402274:	e016      	b.n	4022a4 <pisca_led3+0x128>
-  402276:	4b13      	ldr	r3, [pc, #76]	; (4022c4 <pisca_led3+0x148>)
+  402274:	e016      	b.n	4022a4 <pisca_ledP+0x128>
+  402276:	4b13      	ldr	r3, [pc, #76]	; (4022c4 <pisca_ledP+0x148>)
   402278:	4798      	blx	r3
   40227a:	4603      	mov	r3, r0
   40227c:	f04f 0400 	mov.w	r4, #0
-  402280:	4913      	ldr	r1, [pc, #76]	; (4022d0 <pisca_led3+0x154>)
+  402280:	4913      	ldr	r1, [pc, #76]	; (4022d0 <pisca_ledP+0x154>)
   402282:	f04f 0200 	mov.w	r2, #0
   402286:	185d      	adds	r5, r3, r1
   402288:	eb44 0602 	adc.w	r6, r4, r2
   40228c:	4628      	mov	r0, r5
   40228e:	4631      	mov	r1, r6
-  402290:	4c0d      	ldr	r4, [pc, #52]	; (4022c8 <pisca_led3+0x14c>)
-  402292:	4a10      	ldr	r2, [pc, #64]	; (4022d4 <pisca_led3+0x158>)
+  402290:	4c0d      	ldr	r4, [pc, #52]	; (4022c8 <pisca_ledP+0x14c>)
+  402292:	4a10      	ldr	r2, [pc, #64]	; (4022d4 <pisca_ledP+0x158>)
   402294:	f04f 0300 	mov.w	r3, #0
   402298:	47a0      	blx	r4
   40229a:	4603      	mov	r3, r0
   40229c:	460c      	mov	r4, r1
   40229e:	4618      	mov	r0, r3
-  4022a0:	4b0a      	ldr	r3, [pc, #40]	; (4022cc <pisca_led3+0x150>)
+  4022a0:	4b0a      	ldr	r3, [pc, #40]	; (4022cc <pisca_ledP+0x150>)
   4022a2:	4798      	blx	r3
 	for (int i=0;i<n;i++){
   4022a4:	68fb      	ldr	r3, [r7, #12]
@@ -5714,14 +5714,14 @@ void pisca_led3(int n, int t){
   4022aa:	68fa      	ldr	r2, [r7, #12]
   4022ac:	687b      	ldr	r3, [r7, #4]
   4022ae:	429a      	cmp	r2, r3
-  4022b0:	f6ff af6c 	blt.w	40218c <pisca_led3+0x10>
+  4022b0:	f6ff af6c 	blt.w	40218c <pisca_ledP+0x10>
 	}
 }
   4022b4:	bf00      	nop
   4022b6:	3714      	adds	r7, #20
   4022b8:	46bd      	mov	sp, r7
   4022ba:	bdf0      	pop	{r4, r5, r6, r7, pc}
-  4022bc:	400e1400 	.word	0x400e1400
+  4022bc:	400e1200 	.word	0x400e1200
   4022c0:	00400571 	.word	0x00400571
   4022c4:	00401ef9 	.word	0x00401ef9
   4022c8:	00402735 	.word	0x00402735
@@ -5973,8 +5973,8 @@ void LED_init(int estado){
   40245a:	2010      	movs	r0, #16
   40245c:	4b11      	ldr	r3, [pc, #68]	; (4024a4 <LED_init+0x58>)
   40245e:	4798      	blx	r3
-	pmc_enable_periph_clk(LED3_PIO_ID);
-  402460:	2010      	movs	r0, #16
+	pmc_enable_periph_clk(LEDP_PIO_ID);
+  402460:	200c      	movs	r0, #12
   402462:	4b10      	ldr	r3, [pc, #64]	; (4024a4 <LED_init+0x58>)
   402464:	4798      	blx	r3
 	
@@ -5997,13 +5997,13 @@ void LED_init(int estado){
   402484:	480a      	ldr	r0, [pc, #40]	; (4024b0 <LED_init+0x64>)
   402486:	4c09      	ldr	r4, [pc, #36]	; (4024ac <LED_init+0x60>)
   402488:	47a0      	blx	r4
-	pio_set_output(LED3_PIO, LED3_PIO_IDX_MASK, estado, 0, 0);
+	pio_set_output(LEDP_PIO, LEDP_PIO_IDX_MASK, estado, 0, 0);
   40248a:	687a      	ldr	r2, [r7, #4]
   40248c:	2300      	movs	r3, #0
   40248e:	9300      	str	r3, [sp, #0]
   402490:	2300      	movs	r3, #0
-  402492:	f44f 6100 	mov.w	r1, #2048	; 0x800
-  402496:	4806      	ldr	r0, [pc, #24]	; (4024b0 <LED_init+0x64>)
+  402492:	f44f 7180 	mov.w	r1, #256	; 0x100
+  402496:	4804      	ldr	r0, [pc, #16]	; (4024a8 <LED_init+0x5c>)
   402498:	4c04      	ldr	r4, [pc, #16]	; (4024ac <LED_init+0x60>)
   40249a:	47a0      	blx	r4
 
@@ -6340,7 +6340,7 @@ int main(void){
   4026ac:	b2db      	uxtb	r3, r3
   4026ae:	2b00      	cmp	r3, #0
   4026b0:	d006      	beq.n	4026c0 <main+0xc4>
-			pisca_led3(5, 200);
+			pisca_ledP(5, 200);
   4026b2:	21c8      	movs	r1, #200	; 0xc8
   4026b4:	2005      	movs	r0, #5
   4026b6:	4b1d      	ldr	r3, [pc, #116]	; (40272c <main+0x130>)
