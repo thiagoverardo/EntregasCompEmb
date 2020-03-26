@@ -350,7 +350,7 @@ int main(void){
 		   * IRQ apos 4s -> 8*0.5
 		   */
 		  uint16_t pllPreScale = (int) (((float) 32768) / 4.0);
-		  uint32_t irqRTTvalue = 8;
+		  uint32_t irqRTTvalue = 16;
       
 		  // reinicia RTT para gerar um novo IRQ
 		  RTT_init(pllPreScale, irqRTTvalue);         

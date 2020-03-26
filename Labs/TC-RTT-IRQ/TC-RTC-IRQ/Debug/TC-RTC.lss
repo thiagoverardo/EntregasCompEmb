@@ -6363,8 +6363,8 @@ int main(void){
 		  uint16_t pllPreScale = (int) (((float) 32768) / 4.0);
   4026ca:	f44f 5300 	mov.w	r3, #8192	; 0x2000
   4026ce:	84fb      	strh	r3, [r7, #38]	; 0x26
-		  uint32_t irqRTTvalue = 8;
-  4026d0:	2308      	movs	r3, #8
+		  uint32_t irqRTTvalue = 16;
+  4026d0:	2310      	movs	r3, #16
   4026d2:	623b      	str	r3, [r7, #32]
       
 		  // reinicia RTT para gerar um novo IRQ
