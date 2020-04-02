@@ -25,12 +25,16 @@
 #define LED2_PIO_ID        ID_PIOC
 #define LED2_PIO_IDX       30
 #define LED2_PIO_IDX_MASK  (1u << LED2_PIO_IDX)
+#define TASK_LED2_STACK_SIZE (1024/sizeof(portSTACK_TYPE))
+#define TASK_LED2_STACK_PRIORITY (tskIDLE_PRIORITY)
 
 // Configuracoes do LED 3
 #define LED3_PIO           PIOB
 #define LED3_PIO_ID        ID_PIOB
 #define LED3_PIO_IDX       2
 #define LED3_PIO_IDX_MASK  (1u << LED3_PIO_IDX)
+#define TASK_LED3_STACK_SIZE (1024/sizeof(portSTACK_TYPE))
+#define TASK_LED3_STACK_PRIORITY (tskIDLE_PRIORITY)
 
 // Configuracoes do botão 1
 #define BUT1_PIO            PIOD
@@ -256,13 +260,14 @@ static void task_led3(void *pvParameters) {
   NVIC_SetPriority(BUT3_PIO_ID, 4); // Prioridade 4
   const TickType_t yDelay = 200 / portTICK_PERIOD_MS;
   
-  if (ySemaphore == NULL)
+  if (zSemaphore == NULL)
     printf("falha em criar o semaforo \n");
 
   for (;;) {
     if( xSemaphoreTake(zSemaphore, ( TickType_t ) 500) == pdTRUE ){
       pio_set(LED3_PIO, LED3_PIO_IDX_MASK);
       vTaskDelay(yDelay);
+      pio_clear(LED3_PIO, LED3_PIO_IDX_MASK);
     }
   }
 }
@@ -341,13 +346,13 @@ int main(void)
 		printf("Failed to create test led task\r\n");
 	}
 	
-	if (xTaskCreate(task_led2, "Led2", TASK_LED_STACK_SIZE, NULL,
-	TASK_LED_STACK_PRIORITY, NULL) != pdPASS) {
+	if (xTaskCreate(task_led2, "Led2", TASK_LED2_STACK_SIZE, NULL,
+	TASK_LED2_STACK_PRIORITY, NULL) != pdPASS) {
 		printf("Failed to create test led task\r\n");
 	}
 	
-	if (xTaskCreate(task_led3, "Led3", TASK_LED_STACK_SIZE, NULL,
-	TASK_LED_STACK_PRIORITY, NULL) != pdPASS) {
+	if (xTaskCreate(task_led3, "Led3", TASK_LED3_STACK_SIZE, NULL,
+	TASK_LED3_STACK_PRIORITY, NULL) != pdPASS) {
 		printf("Failed to create test led task\r\n");
 	}
 
