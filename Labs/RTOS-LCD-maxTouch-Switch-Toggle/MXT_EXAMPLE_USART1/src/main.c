@@ -288,18 +288,26 @@ void task_lcd(void){
 	t_but but2 = {.width = 120, .height = 75,
 		.colorOn = COLOR_RED, .colorOff = COLOR_BLACK,
 	.x = ILI9488_LCD_WIDTH/2, .y = 240, .status = 1 };
+	t_but but3 = {.width = 120, .height = 75,
+		.colorOn = COLOR_GREEN, .colorOff = COLOR_BLACK,
+	.x = ILI9488_LCD_WIDTH/2, .y = 340, .status = 1 };
+	t_but but4 = {.width = 120, .height = 75,
+		.colorOn = COLOR_YELLOW, .colorOff = COLOR_BLACK,
+	.x = ILI9488_LCD_WIDTH/2, .y = 440, .status = 1 };
 	draw_button_new(but0);
 	draw_button_new(but1);
 	draw_button_new(but2);
+	draw_button_new(but3);
+	draw_button_new(but4);
 	
-	t_but botoes[] = {but0, but1, but2};
+	t_but botoes[] = {but0, but1, but2, but3, but4};
 
 	// struct local para armazenar msg enviada pela task do mxt
 	touchData touch;
 
 	while (true) {
 		if (xQueueReceive( xQueueTouch, &(touch), ( TickType_t )  500 / portTICK_PERIOD_MS)) {
-			int b = process_touch(botoes, touch, 3);
+			int b = process_touch(botoes, touch, 5);
 			if(b >= 0){
 				botoes[b].status = !botoes[b].status;
 				draw_button_new(botoes[b]);
