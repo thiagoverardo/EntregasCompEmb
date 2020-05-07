@@ -335,6 +335,10 @@ void task_lcd(void){
   
   char buffer[64];
   int x = 0;
+  
+  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_BLACK));
+  ili9488_draw_filled_circle(ILI9488_LCD_WIDTH/2, ILI9488_LCD_HEIGHT/2, 50);
+
 
   while (true) {
     if (xQueueReceive( xQueueTouch, &(touch), ( TickType_t )  0 / portTICK_PERIOD_MS)) {
@@ -344,21 +348,16 @@ void task_lcd(void){
     if (xQueueReceive( xQueuePlot, &(plot), ( TickType_t )  100 / portTICK_PERIOD_MS)) {     
       sprintf(buffer, "%04d", plot.raw);
       font_draw_text(&calibri_36, buffer, 0, 0, 2);
+	  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_BLACK));
+	  ili9488_draw_filled_circle(ILI9488_LCD_WIDTH/2, ILI9488_LCD_HEIGHT/2, 50 );
 	 
-		if (x >= ILI9488_LCD_WIDTH) {
-			x = 0;
-			draw_screen();
-		}
-		if (x < ILI9488_LCD_WIDTH) {
-			ili9488_set_foreground_color(COLOR_CONVERT(COLOR_BLACK));
-			ili9488_draw_filled_circle(x, ILI9488_LCD_HEIGHT - plot.raw / 16, 3 );
-			ili9488_set_foreground_color(COLOR_CONVERT(COLOR_RED));
-			ili9488_draw_filled_circle(x, ILI9488_LCD_HEIGHT - plot.filtrado/ 16, 3 );
-			x += 5;
-		}
-    }
-  }    
-}
+	  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_GREEN));
+	  ili9488_draw_filled_circle(47 * cos(2*PI*plot.raw/4095) + ILI9488_LCD_WIDTH/2, 47 * sin(2*PI*plot.raw/4095) + ILI9488_LCD_HEIGHT/2, 5 );
+	  ili9488_set_foreground_color(COLOR_CONVERT(COLOR_RED));
+	  ili9488_draw_filled_circle(47 * cos(2*PI*plot.filtrado/4095) + ILI9488_LCD_WIDTH/2, 47 * sin(2*PI*plot.filtrado/4095) + ILI9488_LCD_HEIGHT/2, 5 );
+	}
+  }
+}    
 
  void task_adc(void){
 
