@@ -50,6 +50,21 @@ const float32_t firCoeffs32[NUM_TAPS] ={0.12269166637219883,
 	0.12466396327768503,
 0.12269166637219883};
 
+const float32_t firCoeffs32_ordem_12[NUM_TAPS] = {
+	0.07930125683894955,
+	0.08147535648783032,
+	0.08323976516671625,
+	0.08457786363832452,
+	0.08547702101550535,
+	0.085928736852674,
+	0.085928736852674,
+	0.08547702101550535,
+	0.08457786363832452,
+	0.08323976516671625,
+	0.08147535648783032,
+	0.07930125683894955
+};
+
 QueueHandle_t xQueueADC, xQueuePlot;
 
 /************************************************************************/
@@ -361,7 +376,7 @@ void task_lcd(void){
 	float32_t inputF32[BLOCK_SIZE + NUM_TAPS - 1];
 	float32_t outputF32[BLOCK_SIZE + NUM_TAPS - 1];
 	arm_fir_instance_f32 S;
-	arm_fir_init_f32(&S, NUM_TAPS, (float32_t *)&firCoeffs32[0], &firStateF32[0], BLOCK_SIZE);
+	arm_fir_init_f32(&S, NUM_TAPS, (float32_t *)&firCoeffs32_ordem_12[0], &firStateF32[0], BLOCK_SIZE);
  
     int i = 0;
 
