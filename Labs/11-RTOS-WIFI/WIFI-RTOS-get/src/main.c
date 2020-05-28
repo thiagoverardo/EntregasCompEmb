@@ -298,21 +298,14 @@ static void task_process(void *pvParameters) {
         printf(STRING_EOL);  printf(STRING_LINE);
         state = DONE;
 		char *str;
-		str = strstr(p_recvMsg->pu8Buffer, "led");
-		printf("teste: %c\n", str[7]);
-		
-		if (xSemaphoreTake(xSemaphore, (TickType_t)500) == pdTRUE){
-			led = !led;
+		str = strstr(p_recvMsg->pu8Buffer, "led");		
+		if (strcmp(str[7], '1')) {
+			pio_set(LED_PIO, LED_IDX_MASK);
 		}
-		if (led == 1) {
-			if (strcmp(str[7], '1')) {
-				pio_set(LED_PIO, LED_IDX_MASK);
-			}
-			else if (strcmp(str[7], '0')) {
-					pio_clear(LED_PIO, LED_IDX_MASK);
-			}
+		else if (strcmp(str[7], '0')) {
+				pio_clear(LED_PIO, LED_IDX_MASK);
 		}
-      }
+	  }
       else {
         state = TIMEOUT;
       };
@@ -403,11 +396,6 @@ static void task_wifi(void *pvParameters) {
 void led_init(void){
 	pmc_enable_periph_clk(LED_PIO_ID);
 	pio_set_output(LED_PIO, LED_IDX_MASK, 0, 0, 0);
-	
-	xSemaphore = xSemaphoreCreateBinary();
-
-	if (xSemaphore == NULL)
-	printf("falha em criar o semaforo \n");
 }
 
 int main(void)
