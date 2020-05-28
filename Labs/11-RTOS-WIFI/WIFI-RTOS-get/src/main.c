@@ -400,11 +400,22 @@ static void task_wifi(void *pvParameters) {
   }
 }
 
+void led_init(void){
+	pmc_enable_periph_clk(LED_PIO_ID);
+	pio_set_output(LED_PIO, LED_IDX_MASK, 0, 0, 0);
+	
+	xSemaphore = xSemaphoreCreateBinary();
+
+	if (xSemaphore == NULL)
+	printf("falha em criar o semaforo \n");
+}
+
 int main(void)
 {
   /* Initialize the board. */
   sysclk_init();
   board_init();
+  led_init();
 
   /* Initialize the UART console. */
   configure_console();
